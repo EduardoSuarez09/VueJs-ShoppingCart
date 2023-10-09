@@ -6,6 +6,11 @@ const items = ref([
   {id: 2, label: '1 lata de frijoles'},
   {id: 3, label: '2 lata de atún'}
 ]);
+const saveItem = () => {
+  items.value.push({id: items.value.length + 1, label: newItem.value}) 
+//limpiando el contenido de newItem
+newItem.value="";
+ };
 const newItem = ref('');
 const newItemHighPriority = ref(false);
 
@@ -14,7 +19,7 @@ const newItemHighPriority = ref(false);
 
 <template>
   <h1> <i class="material-icons shopping-cart-icon">local_mall</i> {{ header }}</h1>
-  <form v-on:submit.prevent="items.push({id: items.length + 1, label: newItem}) " class="add-item form">
+  <form v-on:submit.prevent=" saveItem " class="add-item form">
     <!-- Input de nuevo articulo -->
     <input v-model.trim="newItem" type="text" placeholder="Ingresar nuevo articulo">
     <!-- Check Boxes -->
