@@ -2,24 +2,35 @@
 import { ref } from 'vue';
 const header = ref('Mi carrito de compras');
 const items = ref([
-  {id: 1, label: '10 bolillos'},
-  {id: 2, label: '1 lata de frijoles'},
-  {id: 3, label: '2 lata de atún'}
+  // {id: 1, label: '10 bolillos'},
+  // {id: 2, label: '1 lata de frijoles'},
+  // {id: 3, label: '2 lata de atún'}
 ]);
 const saveItem = () => {
   items.value.push({id: items.value.length + 1, label: newItem.value}) 
 //limpiando el contenido de newItem
-newItem.value="";
- };
+newItem.value ="";
+};
 const newItem = ref('');
 const newItemHighPriority = ref(false);
+const editing = ref (true);
+const doEdit = (edit) =>{
+  //Altero la variable editing
+  editing.value = edit;
+  //Limpio el input de texto
+  newItem.value = "";
+}
 
 </script>
 
 
 <template>
-  <h1> <i class="material-icons shopping-cart-icon">local_mall</i> {{ header }}</h1>
-  <form v-on:submit.prevent=" saveItem " class="add-item form">
+  <div class="header">
+    <h1> <i class="material-icons shopping-cart-icon">local_mall</i> {{ header }}</h1>
+    <button v-if ="!editing" @click="doEdit(true)" class="btn btn-primary"> Agregar Articulo</button>
+    <button v-else @click="doEdit(false) " class="btn"> Cancelar </button>
+  </div>
+  <form v-if =" editing " v-on:submit.prevent=" saveItem " class="add-item form">
     <!-- Input de nuevo articulo -->
     <input v-model.trim="newItem" type="text" placeholder="Ingresar nuevo articulo">
     <!-- Check Boxes -->
@@ -32,11 +43,12 @@ const newItemHighPriority = ref(false);
   <!-- Boton de UI -->
   <button class="btn btn-primary"> Salvar Articulo </button>
   </form>
-<ul>
-  <li v-for="({ id, label } ) in items" v-bind:key="id">
+  <ul>
+   <li v-for="({ id, label } ) in items" v-bind:key="id">
     🔹  {{ label }}
-  </li>
-</ul>
+   </li>
+  </ul>
+  <p v-if="items.length==0" >🥀 Lista de compras vacia 🥀</p>
 </template>
 
 <style scoped>
