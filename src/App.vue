@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 const header = ref('Mi carrito de compras');
 const items = ref([
   {id: 1, label: '10 bolillos', purchased: true, highPriority: true },
@@ -26,6 +26,11 @@ const doEdit = (edit) =>{
   //Limpio el input de texto
   newItem.value = "";
 }
+//Crando una propiedad computada
+const characterCount = computed(()=>{
+  // Toda propiedad computada debe regresar un valor
+  return newItem.value.length;
+});
 
 </script>
 
@@ -50,6 +55,10 @@ const doEdit = (edit) =>{
     {{ newItemHighPriority ? "🔥" : "🧊" }}
   <!-- Boton de UI -->
   <button :disabled ="newItem.length==0" class="btn btn-primary"> Salvar Articulo </button>
+  	<!-- Contador -->
+    <p class="counter">
+    {{ characterCount }} / 200
+  </p>
   </form>
   <ul>
    <li v-for="({ id, label, purchased, highPriority,  }, index ) in items" 
