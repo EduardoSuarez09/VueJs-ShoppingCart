@@ -31,6 +31,8 @@ const characterCount = computed(()=>{
   // Toda propiedad computada debe regresar un valor
   return newItem.value.length;
 });
+// Creando propiedad computada que invierte items de la lista
+const reversedItems = computed(() => [...items.value].reverse());
 
 </script>
 
@@ -61,10 +63,10 @@ const characterCount = computed(()=>{
   </p>
   </form>
   <ul>
-   <li v-for="({ id, label, purchased, highPriority,  }, index ) in items" 
+   <li v-for="({ id, label, purchased, highPriority,  }, index ) in reversedItems" 
    v-bind:key="id"
    :class ="{strikeout : purchased, priority: highPriority} "
-   @click="togglePurchased (items[index])"
+   @click="togglePurchased (reversedItems[index])"
    >
     🔹  {{ label }} 
     </li>
